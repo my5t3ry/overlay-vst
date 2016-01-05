@@ -3,10 +3,6 @@
 #include "re/re.h"
 #include "baresip.h"
 
-pthread_t tid;
-bool running = false;
-
-
 #define DEFAULT_PROG "Default"
 #define UNIQUE_ID 'itsr'
 
@@ -16,6 +12,10 @@ bool running = false;
 #define VENDOR_VERSION 1
 
 #define MAX_GAIN 1
+
+pthread_t tid;
+bool running = false;
+
 
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster)
 {
@@ -36,11 +36,6 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 	vst_strncpy(programName,DEFAULT_PROG,kVstMaxProgNameLen);
 
 	if (!running) {
-
-		(void)re_fprintf(stderr, "activate baresip v%s"
-				" Copyright (C) 2010 - 2015"
-				" Alfred E. Heggestad et al.\n",
-				BARESIP_VERSION);
 		(void)sys_coredump_set(true);
 		libre_init();
 		conf_configure();
@@ -60,10 +55,14 @@ vstplugin::~vstplugin()
 	if (!effect_session_stop(sess)) {
 		//re_cancel();
 		ua_stop_all(false);
-		(void)pthread_join(tid, NULL);
+		//(void)pthread_join(tid, NULL);
+		sys_msleep(1000);
 		ua_close();
 		mod_close();
 		libre_close();
+		//tmr_debug();
+		//mem_debug();
+
 		running = false;
 	}
 
