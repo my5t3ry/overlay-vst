@@ -78,6 +78,9 @@ void vstplugin::processReplacing(float** inputs, float** outputs, VstInt32 sampl
 
 	effect_src(sess, input0, input1, sampleFrames);
 	effect_play(sess, output0, output1, sampleFrames);
+	effect_bypass(amp->sess, output0, output1,
+			input0, input1, n_samples);
+
 }
 
 //Parameters

@@ -9,6 +9,10 @@ extern "C" {
 			float* const output1, unsigned long nframes);
 	void effect_src(struct session *sess, const float* const input0,
 			const float* const input1, unsigned long nframes);
+	void effect_bypass(struct session *sess, float* const output0,
+			float* const output1, const float* const input0,
+			const float* const input1, unsigned long nframes);
+
 
 	struct session* effect_session_start(void);
 	int effect_session_stop(struct session *session);
