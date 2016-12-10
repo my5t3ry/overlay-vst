@@ -17,6 +17,15 @@ pthread_t tid;
 bool running = false;
 
 
+static void ua_exit_handler(void *arg)
+{
+	(void)arg;
+	debug("ua exited -- stopping main runloop\n");
+
+	/* The main run-loop can be stopped now */
+	re_cancel();
+}
+
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster)
 {
 	return new vstplugin (audioMaster);
@@ -43,6 +52,7 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 		ua_init("baresip v" BARESIP_VERSION " (" ARCH "/" OS ")",
 				true, true, true, false);
 		conf_modules();
+		uag_set_exit_handler(ua_exit_handler, NULL);
 		pthread_create(&tid, NULL, (void*(*)(void*))&re_main, NULL);
 		running = true;
 	}
@@ -57,11 +67,12 @@ vstplugin::~vstplugin()
 		ua_stop_all(false);
 		sys_msleep(500);
 		ua_close();
-		re_cancel();
 		conf_close();
 		baresip_close();
 		mod_close();
 		libre_close();
+		tmr_debug();
+		mem_debug();
 
 		running = false;
 	}
