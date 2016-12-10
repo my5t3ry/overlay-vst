@@ -39,6 +39,7 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 		(void)sys_coredump_set(true);
 		libre_init();
 		conf_configure();
+		baresip_init(conf_config(), false);
 		ua_init("baresip v" BARESIP_VERSION " (" ARCH "/" OS ")",
 				true, true, true, false);
 		conf_modules();
@@ -53,15 +54,14 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 vstplugin::~vstplugin()
 {
 	if (!effect_session_stop(sess)) {
-		//re_cancel();
 		ua_stop_all(false);
-		//(void)pthread_join(tid, NULL);
-		sys_msleep(1000);
+		sys_msleep(500);
 		ua_close();
+		re_cancel();
+		conf_close();
+		baresip_close();
 		mod_close();
 		libre_close();
-		//tmr_debug();
-		//mem_debug();
 
 		running = false;
 	}
