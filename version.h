@@ -1,8 +1,8 @@
-#define MAJOR_VERSION_STR "16"
-#define MAJOR_VERSION_INT 16
+#define MAJOR_VERSION_STR "17"
+#define MAJOR_VERSION_INT 17
 
-#define SUB_VERSION_STR "12"
-#define SUB_VERSION_INT 12
+#define SUB_VERSION_STR "3"
+#define SUB_VERSION_INT 3
 
 #define RELEASE_NUMBER_STR "0"
 #define RELEASE_NUMBER_INT 0
@@ -23,5 +23,5 @@
 #define stringFileDescription	"StudioLink Plugin"
 #endif
 #define stringCompanyName		"IT-Service Sebastian Reimers\0"
-#define stringLegalCopyright	"2016 IT-Service Sebastian Reimers"
+#define stringLegalCopyright	"2017 IT-Service Sebastian Reimers"
 #define stringLegalTrademarks	"VST is a trademark of Steinberg Media Technologies GmbH"
