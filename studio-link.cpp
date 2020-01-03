@@ -12,8 +12,10 @@
 
 #define MAX_GAIN 1
 
+#ifdef WINDOWS
 DWORD dwThreadId;
 HANDLE hThread;
+#endif
 bool running = false;
 
 
@@ -26,13 +28,13 @@ static void ua_exit_handler(void *arg)
 	re_cancel();
 }
 
- 
+#ifdef WINDOWS 
 DWORD WINAPI MyThreadFunction(LPVOID lpParam)
 {
 	re_main(NULL);
 	return 0;
 }
-
+#endif
 
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster)
 {
@@ -43,7 +45,9 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster)
 vstplugin::vstplugin(audioMasterCallback audiomaster)
 : AudioEffectX(audioMaster, 1,3)
 {
+#ifdef WINDOWS
 	DWORD dwThreadId, dwThrdParam = 1;
+#endif
 	setNumInputs(2);
 	setNumOutputs(2);
 	setUniqueID(UNIQUE_ID);
@@ -62,7 +66,7 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 				true, true, true);
 		conf_modules();
 		uag_set_exit_handler(ua_exit_handler, NULL);
-
+#ifdef WINDOWS
 		hThread = CreateThread(
 				NULL, // default security attributes
 				0, // use default stack size
@@ -70,6 +74,7 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 				&dwThrdParam, // argument to thread function
 				0, // use default creation flags
 				&dwThreadId); // returns the thread identifier
+#endif
 		running = true;
 	}
 	sess = effect_session_start();
@@ -81,8 +86,10 @@ vstplugin::~vstplugin()
 {
 	if (!effect_session_stop(sess)) {
 		ua_stop_all(false);
+#ifdef WINDOWS
 		WaitForSingleObject(hThread, 2000);
 		TerminateThread(hThread, NULL);
+#endif
 		ua_close();
 		conf_close();
 		baresip_close();
@@ -90,8 +97,9 @@ vstplugin::~vstplugin()
 		libre_close();
 		tmr_debug();
 		mem_debug();
-
+#ifdef WINDOWS
 		CloseHandle(hThread);
+#endif
 		running = false;
 	}
 
