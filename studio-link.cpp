@@ -15,6 +15,9 @@
 #ifdef WINDOWS
 DWORD dwThreadId;
 HANDLE hThread;
+#else
+#include <pthread.h>
+pthread_t tid;
 #endif
 bool running = false;
 
@@ -74,6 +77,8 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 				&dwThrdParam, // argument to thread function
 				0, // use default creation flags
 				&dwThreadId); // returns the thread identifier
+#else
+		pthread_create(&tid, NULL, (void*(*)(void*))&re_main, NULL);
 #endif
 		running = true;
 	}
@@ -89,6 +94,8 @@ vstplugin::~vstplugin()
 #ifdef WINDOWS
 		WaitForSingleObject(hThread, 2000);
 		TerminateThread(hThread, NULL);
+#else
+		sys_msleep(500);
 #endif
 		ua_close();
 		conf_close();
