@@ -8,7 +8,7 @@
 #define EFFECT_NAME "StudioLink"
 #define PRODUCT_STRING "StudioLink"
 #define VENDOR_STRING "IT-Service Sebastian Reimers"
-#define VENDOR_VERSION 1
+#define VENDOR_VERSION 19120
 
 #define MAX_GAIN 1
 
@@ -46,7 +46,7 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster)
 
 // Constructor
 vstplugin::vstplugin(audioMasterCallback audiomaster)
-: AudioEffectX(audioMaster, 1,3)
+: AudioEffectX(audioMaster, 1,1)
 {
 #ifdef WINDOWS
 	DWORD dwThreadId, dwThrdParam = 1;
@@ -79,6 +79,7 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 				&dwThreadId); // returns the thread identifier
 #else
 		pthread_create(&tid, NULL, (void*(*)(void*))&re_main, NULL);
+		sys_msleep(200);
 #endif
 		running = true;
 	}
@@ -98,6 +99,7 @@ vstplugin::~vstplugin()
 		sys_msleep(500);
 #endif
 		ua_close();
+		module_app_unload();
 		conf_close();
 		baresip_close();
 		mod_close();
