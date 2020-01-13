@@ -79,8 +79,8 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 				&dwThreadId); // returns the thread identifier
 #else
 		pthread_create(&tid, NULL, (void*(*)(void*))&re_main, NULL);
-		sys_msleep(200);
 #endif
+		sys_msleep(200);
 		running = true;
 	}
 	sess = effect_session_start();
