@@ -1,0 +1,15 @@
+[submodule "baresip"]
+	path = baresip
+	url = git@github.com:my5t3ry/baresip.git
+[submodule "app"]
+	path = app
+	url = git@github.com:my5t3ry/app.git
+[submodule "re"]
+	path = re
+	url = https://github.com/creytiv/re
+[submodule "rem"]
+	path = rem
+	url = https://github.com/creytiv/rem
+[submodule "3rdparty"]
+	path = 3rdparty
+	url = https://github.com/Studio-Link/3rdparty

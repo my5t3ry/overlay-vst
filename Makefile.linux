@@ -1,3 +1,3 @@
 all: studio-link.cpp studio-link.h
-	$(CC) -fPIC -Wall -shared -o studio-link.so studio-link.cpp vstsdk2.4/public.sdk/source/vst2.x/audioeffect.cpp vstsdk2.4/public.sdk/source/vst2.x/audioeffectx.cpp vstsdk2.4/public.sdk/source/vst2.x/vstplugmain.cpp -I vstsdk2.4/public.sdk/source/vst2.x/ -I vstsdk2.4/ -I ../my_include  ../baresip/libbaresip.a \
+	$(CC) -fPIC -Wall -shared -o studio-link.so studio-link.cpp /home/my5t3ry/vstsdk/VST_SDK/VST2_SDK/public.sdk/source/vst2.x/audioeffect.cpp /home/my5t3ry/vstsdk/VST_SDK/VST2_SDK/public.sdk/source/vst2.x/audioeffectx.cpp vstsdk2.4/public.sdk/source/vst2.x/vstplugmain.cpp -I /home/my5t3ry/vstsdk/VST_SDK/VST2_SDK/public.sdk/source/vst2.x/ -I ./vstsdk2.4/  -I  -I ../my_include ../baresip/src/libbaresip.a \
 		    ../re/libre.a ../rem/librem.a -L ../opus -L ../openssl -lssl -lcrypto -lopus -lpthread
