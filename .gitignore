@@ -2,3 +2,4 @@ vstsdk2.4/*
 *.dll
 *.o
 .ccls-cache
+compile_commands.json

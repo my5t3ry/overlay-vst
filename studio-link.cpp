@@ -1,6 +1,7 @@
 #include "studio-link.h"
 #include "re/re.h"
 #include "baresip.h"
+#include "hilya.h"
 
 #define DEFAULT_PROG "Default"
 #define UNIQUE_ID 'itsr'
@@ -31,7 +32,7 @@ static void ua_exit_handler(void *arg)
 	re_cancel();
 }
 
-#ifdef WINDOWS 
+#ifdef WINDOWS
 DWORD WINAPI MyThreadFunction(LPVOID lpParam)
 {
 	re_main(NULL);
@@ -55,7 +56,7 @@ vstplugin::vstplugin(audioMasterCallback audiomaster)
 	setNumOutputs(2);
 	setUniqueID(UNIQUE_ID);
 	canProcessReplacing();
-
+	initLink();
 	resume();
 
 	vst_strncpy(programName,DEFAULT_PROG,kVstMaxProgNameLen);
